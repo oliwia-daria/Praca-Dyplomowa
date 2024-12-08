@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>LIPNO</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            padding: 0;
+            margin: 0;
+        }
+
+        html,
+        body,
+        #map {
+            height: 100%;
+        }
+
+    </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <link rel="stylesheet" href="../src/leaflet.legend.css" />
+    <script type="text/javascript" src="../src/leaflet.legend.js"></script>
+    
+	<link rel="stylesheet" href="../src/L.Control.Window.css" />
+	<script src="../src/L.Control.Window.js"></script>
+	
+	<link rel="stylesheet" href="../src/lightbox.min.css"/>
+	
+    <link rel="stylesheet" href="../src/L.Control.SlideMenu.css" />
+    <script src="../src/L.Control.SlideMenu.js"></script>
+
+	<link rel="stylesheet" href="../src/Leaflet.GraphicScale.min.css" />
+	<script src="../src/Leaflet.GraphicScale.min.js"></script>
+	
+
+	 <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+    />
+	<style>
+		#map {
+		  position: absolute;
+		  width: 100%;
+		  height: 100%;
+		  font-weight: 400;
+		}
+  
+		.content {
+		  margin: 0.25rem;
+		  border-top: 1px solid #000;
+		  padding-top: 0.5rem;
+		}
+  
+		.header {
+		  font-size: 1.8rem;
+		  color: #7f7f7f;
+		}
+  
+		.title {
+		  font-size: 1.1rem;
+		  color: #7f7f7f;
+		  font-weight: bold;
+		}
+  
+		.bottom {
+		  margin-top: 64px;
+		  font-size: 0.8rem;
+		  color: #7f7f7f;
+		}
+	  </style>
+
+    <script src="LIPNO_FP.js"></script>
+	<script src="LIPNO_L.js"></script>
+	<script src="LIPNO_P.js"></script>
+	<script src="WODA_A.js"></script>
+	<script src="BUDYNKI_A.js"></script>
+	<script src="DROGI_L.js"></script>
+	<script src="SCIEZKI_L.js"></script>
+	<script src="RZEKI_L.js"></script>
+	<script src="LIPNO_A.js"></script>
+</head>
+
+<body>
+    <div id="map"></div>
+</body>
+<script type="text/javascript">
+
+    
+var icon_fontanna = L.icon({
+	iconUrl: './fontanna.svg', 
+	iconSize: [55, 55],
+	}); 
+var icon_tablice = L.icon({
+	iconUrl: './tablice.svg', 
+	iconSize: [55, 55],
+	}); 
+var icon_gwiazda = L.icon({
+		iconUrl: './gwiazda.svg', 
+		iconSize: [55, 55],
+		}); 
+var icon_kino = L.icon({
+		iconUrl: './kino.svg', 
+		iconSize:[55, 55],
+		}); 
+var icon_izba = L.icon({
+		iconUrl: './izba.svg', 
+		iconSize: [55, 55],
+		}); 
+var icon_mural = L.icon({
+		iconUrl: './mural.svg', 
+		iconSize:[55, 55],
+		}); 
+var icon_plus = L.icon({
+		iconUrl: './plus.svg', 
+		iconSize: [55, 55],
+		}); 
+
+    var map = L.map("map", {
+        center: [52.846067565161253, 19.180515532793788],
+        zoom: 16
+    });
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> autor: <b> Oliwia Kapuścińska </b>' 
+			}).addTo(map);
+			
+var LIPNO_P = L.geoJson(LIPNO_P, {pointToLayer: function(feature, latlng){
+						
+	if ("FONTANNA ZDJ" == feature.properties.UWAGI) {
+							return L.marker(latlng,
+								{
+									icon: icon_fontanna
+								}
+									).bindPopup('<h3><b><center> FONTANNA </h3></b></center> <a href="./fontanna.jpg" data-lightbox="example-gallery1" data-title="Najnowsze miejsce upamiętniające aktorkę z Lipna - FONTANNA."><img src="./FONTANNA1.jpg" width="150px" alt="Fontanna z figurką kobiety trzymającej wachlarz z którego leci woda"/></a><a>Archium prywatne</a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+													
+												
+						else if ("TABLICE" == feature.properties.UWAGI)  {
+							return L.marker(latlng,
+								{
+									icon: icon_tablice
+									
+								}
+									).bindPopup('<h3><b><center> TABLICA PAMIĄTKOWA </h3></b></center> <a href="./TABLICA.jpg" data-lightbox="example-galleryx" data-title="Tablica upamiętniająca to, że Poli Negri urodziła się w Lipie."><img src="./TABLICA.jpg" width="150px" alt="Tablica pamiątkowa z napisem -Jedna z największych gwiazd światowego filmu. Bogini ekranu-"/></a><a>Archiwum Prywatne </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+					
+						else if ("TABLICA" == feature.properties.UWAGI)  {
+							return L.marker(latlng,
+								{
+									icon: icon_tablice
+								}
+									).bindPopup('<h3><b><center> TABLICE INFORMACYJNE </h3></b></center> <a href="./TABLICA-BULW1.jpg" data-lightbox="example-gallery2" data-title="Tablice umieszczone wzdłuż bularu na których można przeczytać informacje o Poli Negri, Jej twórczości oraz o Festiwalu."><img src="./TABLICA-BULW1.jpg" width="150px" alt="Tablica z informacjami na temat Poli Negri"/></a><a>Archiwum prywatne </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+					
+						else if ("IZBA" == feature.properties.UWAGI)  {
+							return L.marker(latlng,
+								{
+									icon: icon_izba
+								}
+									).bindPopup('<h3><b><center>IZBA PAMIĘCI </h3></b></center> <a href="./izba.jpeg" data-lightbox="example-gallery" data-title="Izba pamięci poświęcona Poli Negri."><img src="./izba1.jpeg" width="150px" alt="Zdjęcie przedstawiające sale z pamiątkami związanymi z polą negri"/></a><a href= "https://tropter.com/pl/polska/lipno/izba-pamieci-poli-negri" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+													
+						else {
+								return L.marker(latlng,
+								{
+									icon: icon_mural,
+									title: "mural"
+								}
+							).bindPopup('<h3><b><center> MURAL </h3></b></center> <a href="./MURAL.jpg" data-lightbox="example-galleryx" data-title="Mural: Poli Negri i CHarlie Chaplin"><img src="./MURAL.jpg" width="150px" alt="Mural przedstawiający Poli Negri i Charliego Chaplia"/></a><a>Archiwum Prywatne </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+								}}).addTo(map);
+					
+					   
+var LIPNO_FP = L.geoJson(LIPNO_FP, {pointToLayer: function(feature, latlng){
+											
+		if ("Kino" == feature.properties.Dokodu) {
+			return L.marker(latlng,
+					{
+						icon: icon_kino,
+						title: "kino"
+					}
+					).bindPopup('<h3><b><center> KINO "NAWOJKA" </h3></b></center> <a href="./KINO1.jpg" data-lightbox="example-gallery5" data-title="Kino "Nawojka" - czyli centralne miejsce festiwalu, to tu wręczane są POLITKI, oglądane są filmy z muzyką na żywo oraz spektakle."><img src="./KINO1.jpg" width="150px" alt="Konieta stojąca przed żółtym budynkiem z wiekim napisem KINO"/><a href= "http://polanegri.org.pl/festiwal/" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+															
+							else if ("bulwar" == feature.properties.Dokodu)  {
+								return L.marker(latlng,
+									{
+										icon: icon_gwiazda,
+										title: "bulwar"
+									}
+								).bindPopup('<h3><b><center> ALEJA GWIAZD </h3></b></center> <a href="./bulwar1.jpg" data-lightbox="example-gallery3" data-title="Aleja upamiętniająca laureatów POLITKI"><img src="./bulwar1.jpg" width="150px" alt="bulwar z wybrukowaną ścieżką na której są metalowe płyty z imonami i nazwiskami aktorów"/></a><a>Archiwum Prywatne </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+								
+							else if ("LO_2024" == feature.properties.uwagi)  {
+								return L.marker(latlng,
+									{
+										icon: icon_plus,
+										title: "lo"
+									}
+								).bindPopup('<h3><b><center> LO LIPNO </h3></b></center> <a href="./LO4.jpg" data-lightbox="example-gallery7" data-title="Budynek Liceum Ogólnokształcącego im. Romuallda Traugutta w Lipnie, które udostępnia Aule na potrzebę występów, warsztatów oraz konkursów podczas festiwalu."><img src="./LO4.jpg" width="150px" alt="Jury siedzące przy stole przed sceną za nimi mównica z logo z napisem LO LIPNI"/><a href= "http://polanegri.org.pl/festiwal/" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});																		
+							}												
+					
+							else if ("MCK" == feature.properties.uwagi)  {
+								return L.marker(latlng,
+									{
+										 icon: icon_plus,
+										title: "MCK"
+									}
+								).bindPopup('<h3><b><center> MIEJSKIE CENTRUM KULTURY </h3></b></center> <a href="./MCK3.jpg" data-lightbox="example-gallery6" data-title="Tzw. MCK, budynek znajdujący się prawie po sąsiedzku kina, w trakcie festiwalu to tu często odbywają się wystawy, warszataty i inne ciekawe zajęcia."><img src="./MCK3.jpg" width="150px" alt="biała sala pełna młodych osób na warsztatach z aktorstwa"/><a href= "http://polanegri.org.pl/festiwal/" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});																		
+							}
+					
+							else {
+								return L.marker(latlng,
+									{
+										icon: icon_plus,
+										title: "PUK"
+									}
+									).bindPopup('<h3><b><center> TURIEJ O PUCHAR POLI NEGRI </h3></b></center> <a href="./tenis1.jpg" data-lightbox="example-gallery4" data-title="Podczas 15. Przglądu Pola i Inni", dzięki możliwości ze skorzystania z kortów PUK ARENA, zacęto w ramach festiwalu organizować turniej deblowy amatoró"><img src="./tenis1.jpg" width="150px" alt="Zwycięzcy turnieju trzymający nagrody."/></a><a href= "https://www.facebook.com/story.php/?story_fbid=986098166849522&id=100063480433401&_rdr" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'});
+																				
+									}
+							}});
+
+    const legend = L.control.Legend({
+            position: "bottomleft",
+            collapsed: false,
+            symbolWidth: 50,
+			symbolHeight: 50,
+            opacity: 1,
+            column: 2,
+            legends: [{
+                label:"Miejsca związane z Poli Negri",
+                type: "image",
+                url: "marker/1.png"
+            }, {
+                label: "Festiwal",
+                type: "image",
+                url: "marker/2.png",
+                layers: [LIPNO_FP],
+                inactive: true,
+            }]
+        })
+        .addTo(map);
+        
+function style_LIPNO_A(feature){
+	if("Lipno" == feature.properties.JPT_NAZWA_){
+		return{
+			weight:1.7,
+			opacity:1,
+			color:"#54494b",
+			fillOpacity:0.1
+		};
+	}
+	else {
+		return{
+			weight:3,
+			opacity:1,
+			color:"#ffcb81"
+		};
+	}
+}
+        var LIPNO_A= L.geoJson(LIPNO_A,{style:style_LIPNO_A}).addTo(map);
+
+function style_DROGI_L(feature){
+	if("masa bitumiczna" == feature.properties.MATE_NAWIE){
+		return{
+			weight:1,
+			opacity:1,
+			color:"#510205",
+			fillOpacity:0
+		};
+	}
+	
+	else if("kostka prefabrykowana" == feature.properties.MATE_NAWIE){
+		return{
+			weight:1,
+			opacity:1,
+			color:"#54494b",
+			fillOpacity:0
+		};
+	}
+	else {
+		return{
+		weight:0.5,
+		opacity:1,
+		color:"#54494b",
+		fillOpacity:0
+	};
+}
+}
+var DROGI_L = L.geoJson(DROGI_L,{style:style_DROGI_L}).addTo(map);
+
+function style_SCIEZKI_L(feature){
+	if("0010_129" == feature.properties.KOD10K){
+		return{
+			weight:0.5,
+			opacity:0.6,
+			color:"#54494b",
+			fillOpacity:0
+		};
+	}
+	else {
+		return{
+		weight:0,
+		opacity:0.6,
+		color:"#54494b",
+		fillOpacity:0
+	};
+}
+}
+var SCIEZKI_L = L.geoJson(SCIEZKI_L,{style:style_SCIEZKI_L}).addTo(map);
+
+function style_BUDYNKI_A(feature){
+	if("0010_320_1" == feature.properties.KOD10K){
+		return{
+			weight:3,
+			opacity:0,
+			color:"#b56576",
+			fillOpacity: 0.9
+		};
+	}
+	else {
+		return{
+		weight:3,
+		opacity:0,
+		color:"#b56576",
+		fillOpacity:0.9
+	};
+}}
+
+var BUDYNKI_A = L.geoJson(BUDYNKI_A,{style:style_BUDYNKI_A}).addTo(map);
+
+function style_RZEKI_L(feature){
+	if("0010_606" == feature.properties.x_kodKarto){
+		return{
+			weight:5,
+			opacity:0.5,
+			color:"#6290c3",
+			fillOpacity:0.1
+		};
+	}
+	else {
+		return{
+			weight:1,
+			opacity:1,
+			color:"#6290c3",
+			fillOpacity:0
+		}
+	}
+}
+
+var RZEKI_L=L.geoJson(RZEKI_L,{style:style_RZEKI_L}).addTo(map);
+
+function style_LIPNO_L(feature){
+	if("BULWAR STARY" == feature.properties.UWAGI){
+		return{
+			weight:5,
+			opacity:1,
+			color:"RED"
+		};
+	}
+	else {
+		return{
+		};
+	}
+}
+var LIPNO_L= L.geoJson(LIPNO_L,{style:style_LIPNO_L}).bindPopup('<h3><b><center> BULWAR POLI NEGRI </h3></b></center> <a href="./bulwar.jpg" data-lightbox="example-gallery8" ><img src="./bulwar.jpg" width="150px" alt=" wejśce n bulwar"/></a><a>Archiwum Prywatne </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'}).addTo(map);
+
+										
+ function style_LIPNO_L2(feature){
+	if("ULICA" == feature.properties.UWAGI){
+		return{
+			weight:5,
+			opacity:1,
+			color:"RED"
+		};
+	}
+	else {
+		return{
+		};
+	}
+}
+var LIPNO_L2= L.geoJson(LIPNO_L2,{style:style_LIPNO_L2}).bindPopup('<h3><b><center> DOM POLI NEGRI W LIPNIE </h3></b></center> <a href="./domek.jpg" data-lightbox="example-gallery9" data-title="Domek przy ul. Stodólnej w Lipnie - Miejsce gdzie mieszkała mała Pola przed wyprowadzką do Warszawy"><img src="./domek.jpg" width="150px" alt="zdjecie biało czarne starego drewnianego domu"/></a><a href= "http://polanegri.org.pl/biografia/" target="_blank"> Źródło zdjęcia </a>',
+										{maxWidth:150,
+										 minWidth:50,						  
+										 closeButton:true,
+										 autoPan:true,
+										 autoPanPadding:[50,50],
+										 zoomAnimation:true,
+										 closeOnClick:true,
+										 className:'balon'}).addTo(map);
+																				
+										
+	     
+		  const left = '<div class="header">Festiwal "POLA I INNI"</div>';
+      let contents = `
+            <div class="content">
+            <div class="title">O festiwalu...</div>
+			<p> Od 2007 r. Lipnowskie Towarzystwo Kulturalne im. Poli Negri organizuje festiwal „Pola i inni”. Gdzie w trakcie imprezy, w kinie „Nawojka” wyświetlane są filmy, w których wystąpiła gwiazda, także te nieme – jak za czasów świetności Poli Negri – z muzyką na żywo wykonywaną przez tapera, czyli specjalnego pianistę.
+				Impreza promuje twórczość filmową Poli Negri, przypominając jednocześnie dorobek i karierę innych polskich artystów, którzy odnieśli sukces poza granicami naszego kraju.<br> W trakcie 3 dni obchodów na czećs znanej lipnowianki, organizatorzy festiwalu przewidują liczne atrakcje jak np. warsztaty teatralne dla młodzieży, Turniej Deblowy Amatorów o Puchar Poli Negri, spektakle teatralne, koncerty i wiele innych.</p>
+			
+			<img src="./festiwa.jpg" width="300px"/>
+			<p> 12. PRZEGLĄD TWÓRCZOŚCI FILMOWEJ „POLA I INNI”</p>
+			<div class="title">Laureaci "POLITKI"</div>
+			<p>
+				2008: Igor Chalupec, Wiesława Czapińska, Karolina Gruszka, Bogusław Kaczyński<br>
+				2009: Izabella Miko, Olgierd Łukaszewicz<br>
+				2010: Jan Nowicki, Agata Buzek<br>
+				2011: Agnieszka Grochowska, Mariusz Kotowski<br>
+				2012: Maestro Jerzy Maksymiuk, Natasza Urbańska<br>
+				2013: Weronika Rosti<br>
+				2014: Magdalena Poczarska, Piotr Adamczyk<br>
+				2015: Peter Lucas, Paweł Deląg<br>
+				2016: Małgorzata Zajączkowska, Daniel Olbrychski, Polsko-kanadyjski teatr<br>
+				2017: Andrzej Seweryn<br>
+				2018: Joanna Kulig, Magdalena Lamparska, Marcin Dorociński<br>
+				2019: Piotr Głowacki, Michalina Olszańska<br>
+				2020: Irana Karel<br>
+				2021: Dariusz Jabłoński<br>
+				2022: Marek Probosz<br>
+				2023: Allan Starski, Małgorzata Sadowska<br>
+<br>
+ <span>żródło <span style="font-weight: bold">polanegri.org.pl</span></span>	
+					
+            </div>
+
+				`;
+     
+      L.control.slideMenu(left + contents, {width:"25%", height: "550px"}).addTo(map);
+	  
+	  const right = '<div class="header">POLI NEGRI Z LIPNA</div>';
+	   let contents2 = `
+            <div class="content">
+            <div class="title">Informacje o aktorce</div>
+<p>Pola Negri (wł. Apolonia Chalupec) Urodziła się 3 stycznia 1897 r. w Lipnie. Dzieciństwo aktorka wspomina bardzo ciepło i sentymentalnie z poczuciem rodzicielskiej miłości i względnej materialnej stabilizacji. Ojciec, przystojny Słowak, przybył do Lipna z żoną, Eleonorą z Kiełczewskich. Z zawodu był blacharzem. Aresztowany przez carską policję utracił kontakt z rodziną, dlatego matka wraz z córką przeniosły się do Warszawy.
+Pola zdała egzamin do szkoły baletowej. Umiejętności taneczne i niesamowita wprost ekspresja, zostały szybko zauważone przez specjalistów z branży teatralnej i filmowej. Na ekranie zadebiutowała w 1914 r. główną rolą w „Niewolnicy zmysłów”. Mimo napiętej sytuacji politycznej film odniósł ogromny sukces. Potem grała w jeszcze kilku polskich filmach, by ostatecznie skorzystać z zaproszenia do Berlina. Skupiona na pracy, niezwykle wytrwała, pełna możliwości twórczych, w środowisku warszawskim była uważana za profesjonalistkę. Zdążyła już stworzyć pewien typ granych przez nią bohaterek – „femme fatale”. <br>
+<img src="./POLA.jpg" width="300px"/> <br>
+W 1917 r. wyjechała do Berlina, gdzie występowała u M. Reinhardta. Zagrała w takich filmach jak „Oczy Mumii Ma”, „Carmen”, „Madame Dubarry”.
+W wieku 25 lat wyruszyła na podbój Ameryki. Nowy Jork powitał polską gwiazdę jak prawdziwą królową srebrnego ekranu. Intensywna praca aktorska Negri przypada na lata 20. Nakręciła w tym czasie 20 filmów, zarabiając milion dolarów rocznie. Najciekawsze tytuły to „Zakazany raj”, „Hotel Imperial”, „Miłostki aktorki”, „Skłamałam”, „Drut kolczasty”. Pola Negri to nie tylko przykład błyskotliwej kariery. Jej osobowość i styl życia były dla wielu kobiet wzorem do naśladowania – to ona pierwsza zaczęła malować paznokcie, nosić sandały i wysokie, zgrabne botki na obcasach, była mistrzynią makijażu, lansowała oryginalne modele sukni do podróży lotniczych. Na swoim koncie miała dwa małżeństwa z arystokratami, romansowała z Charlie Chaplinem i Rudolfem Valentino.
+Różne były przyczyny końca amerykańskiej sławy Poli Negri, ale niewątpliwie zasłużyła sobie w tym czasie na miano bogini ekranu. W latach 30. ponownie wyjechała do Niemiec. Wtedy też powstały z jej udziałem najciekawsze europejskie filmy dźwiękowe: „Mazurka”, „Moskwa-Szanghaj”, „Tango Notturno”. W 1951 r. przyjęła amerykańskie obywatelstwo, a w 1964 r., za sprawą przyjaciółki Margaret West, wystąpiła po raz ostatni. Zagrała rolę Madame Habib w „Księżycowych prządkach”. Zdjęcia kręcono w Londynie. Polę powitano tam bardzo entuzjastycznie. Szczególnie dla młodszych fanów była żywą legendą kina. Pola Negri zmarła 1 sierpnia 1987 r. w San Antonio.
+W Lipnie wisi tablica poświęcona jej pamięci, a do odwiedzenia zaprasza Izba Pamięci Poli Negri, w której zgromadzono cenne pamiątki przywołujące postać gwiazdy i atmosferę „starego kina”.</p>
+<img src="./POLA2.jpg" width="300px"/>	
+                <div class="title">Filmografia Poli Negri</div>
+                <p>
+<b>Filmy nieme w Polsce</b><br>
+1914 – Niewolnica zmysłów<br>1915 – Żona<br>1916 – Studenci, Bestia<br>1917 – Tajemnica Alei Ujazdowskich, Arabella, Pokój nr 13, Jego ostatni czyn<br>
+
+<b>Filmy nieme w Niemczech</b><br>
+1917 – Rozpasana, Niedługo mnie szczęście łudziło, Za pocałunek-wieczystych nocy męki, Gdy serce nienawiścią pała, Róże na wietrze<br>1918 – Martwe oczy, Mania, Oczy mumii Mia, Żółty paszport, Carmen<br>1919 – Awanturnica, Vendetta – Zemsta krwi, Dzieje mężatki, Madame Dubarry, Hrabina Rondoli<br>1920 – Markiza d’Arminiani, Sumurun,Matryrologia, Zamknięty łańcuch, Biedna Violetta<br>1921 – Dzika kotka, Safo<br>1922 – Głos ulicy<br>
+
+<b>Filmy nieme USA</b><br>
+1923 – Bella Donna, Napiętnowana, Hiszpańska tancerka<br>1924 – Czarna Lu, Zakazany raj, Jej wielka miłość, Cesarzowa, Cienie Paryża, Mężczyźni<br>1925 – Piętno krwi, Czarodziejka, Kwiat nocy, Kobieta bezwstydna<br>1926 – Skłamałam, Dobry i nieznośny, Hotel Imperial<br>1927 – Drut kolczasty, Spowiedź uczciwej kobiety<br>1928 – Godzina zmysłów, Podwójne życie, Miłość aktorki, Biała księżna<br>1929 – Ulica potępionych dusz<br>
+
+<b>Filmy dźwiękowe</b><br>
+1932 – Na rozkaz kobiety<br>1934 – Fanatyzm<br>1935 – Mazurka<br>1936 – Moskwa-Szanghaj<br>1937 – Madame Bovary, Tango Notturno<br>1938 – Pobożne kłamstwo, Decydująca noc<br>1943 – Wystrychnąć na dudka<br>1964 – Księżycowe prządki<br>
+
+<b>Inne</b><br>
+1917 – Die toten Augen<br>1918 – Czarna książka<br>1925 – Na wschód Suez<br>1936 – Gräfin Volescu<br>1965 – Boginie miłości</p>
+                    <span>żródło <span style="font-weight: bold">polanegri.org.pl</span></span>	
+					
+            </div>`;
+
+      const slideMenu = L.control
+        .slideMenu("", {
+          position: "topright",
+          menuposition: "topright",
+          width: "25%",
+          height: "700px",
+          delay: "50",
+          icon: "fa-solid fa-bars",
+        })
+        .addTo(map);
+      slideMenu.setContents(right + contents2);
+
+	  var graphicScale = L.control.graphicScale({fill: 'fill' , doubleLine:true }).addTo(map);
+	
+
+	</script>
+	<script src="lightbox-plus-jquery.min.js"></script>	
+	
+	<a href="./izba1.jpeg" data-lightbox="example-gallery" ></a>
+	<a href="./izba2.jpeg" data-lightbox="example-gallery"></a>
+	<a href="./izba3.jpeg" data-lightbox="example-gallery" ></a>
+	<a href="./izba5.jpeg" data-lightbox="example-gallery" ></a>
+	<a href="./izba4.jpeg" data-lightbox="example-gallery" data-title="Pamiątkowa księga w której znajdują się wpisy aktorów przyjeżdzających na coroczny festiwal."></a>
+	<a href="./WPIS1.jpg" data-lightbox="example-gallery"></a>
+	<a href="./WPIS2.jpg" data-lightbox="example-gallery" ></a>
+	<a href="./WPIS3.jpg" data-lightbox="example-gallery" ></a>
+
+	
+	<a href="./FONTANNA2.jpg" data-lightbox="example-gallery1" data-title="Nowa fontanna miejska eksponująca postać Poli Negri. "></a>
+	<a href="./FONTANNA1.jpg" data-lightbox="example-gallery1" data-title="We wrześniu 2023 roku rozpoczęły się prace w tej części miasta. Przebudowa trwała do wiosny 2024 roku, a w lipcu umieszczono w fontannie pomnika Poli Negri."></a>
+
+	<a href="./TABLICA-BULW2.jpg" data-lightbox="example-gallery2" ></a>
+	<a href="./TABLICA-BULW3.jpg" data-lightbox="example-gallery2" ></a>
+	<a href="./TABLICA-BULW4.jpg" data-lightbox="example-gallery2" ></a>
+	<a href="./TABLICA-BULW5.jpg" data-lightbox="example-gallery2" ></a>
+	<a href="./TABLICA-BULW1.jpg" data-lightbox="example-gallery2" ></a>
+
+	<a href="./LO5.jpg" data-lightbox="example-gallery7" ></a>
+	<a href="./LO3.jpg" data-lightbox="example-gallery7" ></a>
+	<a href="./LO2.jpg" data-lightbox="example-gallery7" ></a>
+	<a href="./LO1.jpg" data-lightbox="example-gallery7" ></a>
+
+	<a href="./tenis2.jpg" data-lightbox="example-gallery4" ></a>
+	<a href="./tenis3.jpg" data-lightbox="example-gallery4" ></a>
+	<a href="./tenis4.jpg" data-lightbox="example-gallery4" ></a>
+
+	
+	<a href="./KINO5.jpg" data-lightbox="example-gallery5" ></a>
+	<a href="./KINO9.jpg" data-lightbox="example-gallery5"  data-title="Traper(ka) grająca muzkę na żywo podczas seansu filmowego. "></a>
+	<a href="./KINO3.jpg" data-lightbox="example-gallery5" ></a>
+	<a href="./KINO4.jpg" data-lightbox="example-gallery5" ></a>
+	<a href="./KINO2.jpg" data-lightbox="example-gallery5" ></a>
+	<a href="./KINO6.jpg" data-lightbox="example-gallery5" ></a>
+	<a href="./KINO7.jpg" data-lightbox="example-gallery5"  data-title="Statuetki POLITKI "></a>
+	<a href="./KINO8.jpg" data-lightbox="example-gallery5" ></a>
+
+	<a href="./MCK1.jpg" data-lightbox="example-gallery6" ></a>
+	<a href="./MCK2.jpg" data-lightbox="example-gallery6" ></a>
+
+	<a href="./DJI_0386.MP4" data-lightbox="example-gallery8" ></a>
+
+	<a href="./wc2008.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./kg2008.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./bk2008.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./ic2008.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./im2009.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./oł2009.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./jn2010.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./ab2010.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./ag2011.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./mk2011.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./jm2012.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./nu2012.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./wr2013.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./mb2014.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./pa2014.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./pl2015.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./pd2015.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./mz2016.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./do2016.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./teatr2016.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./as2017.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./jk2018.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./ml2018.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./md2008.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./pg2019.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./mo2019.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./ik2020.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./dj2021.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./mp2022.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./dp2023.jpg" data-lightbox="example-gallery3" ></a>
+	<a href="./pn2023.jpg" data-lightbox="example-gallery3" ></a>
+
+
+  </body>
+  
+</html>
